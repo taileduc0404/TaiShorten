@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaiShorten", "TaiShorten\TaiShorten.csproj", "{5892BAC4-1E09-4AB6-A6F5-EF5D122E8D32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5892BAC4-1E09-4AB6-A6F5-EF5D122E8D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5892BAC4-1E09-4AB6-A6F5-EF5D122E8D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5892BAC4-1E09-4AB6-A6F5-EF5D122E8D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5892BAC4-1E09-4AB6-A6F5-EF5D122E8D32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {29877820-9CA5-4E7B-AD41-778094765EC9}
+	EndGlobalSection
+EndGlobal
