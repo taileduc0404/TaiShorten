@@ -1,50 +1,270 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TaiShorten</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TaiShorten.styles.css" asp-append-version="true" />
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+	<title>TaiShorten</title>
+	<meta content="" name="description">
+	<meta content="" name="keywords">
+
+	<!-- Favicons -->
+	<link href="~/Bootstrap/img/favicon.png" rel="icon">
+	<link href="~/Bootstrap/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+	<!-- Vendor CSS Files -->
+	<link href="~/Bootstrap/vendor/aos/aos.css" rel="stylesheet">
+	<link href="~/Bootstrap/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/Bootstrap/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+	<link href="~/Bootstrap/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+	<link href="~/Bootstrap/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+	<link href="~/Bootstrap/vendor/remixicon/remixicon.css" rel="stylesheet">
+	<link href="~/Bootstrap/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+	<!-- Template Main CSS File -->
+	<link href="~/Bootstrap/css/style.css" rel="stylesheet">
+
+	<!-- =======================================================
+	* Template Name: OnePage
+	* Updated: Feb 21 2024 with Bootstrap v5.3.2
+	* Template URL: https://bootstrapmade.com/onepage-multipurpose-bootstrap-template/
+	* Author: BootstrapMade.com
+	* License: https://bootstrapmade.com/license/
+	======================================================== -->
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TaiShorten</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                       @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>*@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Shorten" asp-action="Index">ShortUrl</a>
-                        </li>
 
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+	<!-- ======= Header ======= -->
+	<header id="header" class="fixed-top">
+		<div class="container d-flex align-items-center justify-content-between">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - TaiShorten - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+			<h1 class="logo"><a class="nav-link scrollto" href="#hero">TaiShorten</a></h1>
+			<!-- Uncomment below if you prefer to use an image logo -->
+			<!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto active" href="#hero">Trang chủ</a></li>
+					<li><a class="nav-link scrollto" href="#about">Về chúng tôi</a></li>
+					@*<li><a class="nav-link scrollto" href="#services">Services</a></li>
+					<li><a class="nav-link scrollto o" href="#portfolio">Portfolio</a></li>
+					<li><a class="nav-link scrollto" href="#team">Team</a></li>
+					<li><a class="nav-link scrollto" href="#pricing">Pricing</a></li>
+					<li class="dropdown">
+						<a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+						<ul>
+							<li><a href="#">Drop Down 1</a></li>
+							<li class="dropdown">
+								<a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+								<ul>
+									<li><a href="#">Deep Drop Down 1</a></li>
+									<li><a href="#">Deep Drop Down 2</a></li>
+									<li><a href="#">Deep Drop Down 3</a></li>
+									<li><a href="#">Deep Drop Down 4</a></li>
+									<li><a href="#">Deep Drop Down 5</a></li>
+								</ul>
+							</li>
+							<li><a href="#">Drop Down 2</a></li>
+							<li><a href="#">Drop Down 3</a></li>
+							<li><a href="#">Drop Down 4</a></li>
+						</ul>
+					</li>
+					<li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+					<li><a class="getstarted scrollto" href="#hero">Get Started</a></li>*@
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav><!-- .navbar -->
+
+		</div>
+	</header><!-- End Header -->
+	<!-- ======= Hero Section ======= -->
+	<section id="hero" class="d-flex align-items-center">
+		<div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+			<div class="row justify-content-center">
+				<div class="col-xl-7 col-lg-9 text-center">
+					<h1>Rút gọn link của bạn hoàn toàn miễn phí</h1>
+					<h2>Tạo đường link ngắn gọn để chia sẻ dễ dàng hơn.</h2>
+				</div>
+			</div>
+			<div class="text-center">
+				@RenderBody()
+			</div>
+
+			<div class="row icon-boxes">
+				<div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200">
+					<div class="icon-box">
+						<div class="icon"><i class="ri-link"></i></div>
+						<h4 class="title"><a href="#">Rút Ngắn URL</a></h4>
+						<p class="description">Rút gọn đường link của bạn một cách nhanh chóng và hiệu quả</p>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="300">
+					<div class="icon-box">
+						<div class="icon"><i class="ri-earth-line"></i></div>
+						<h4 class="title"><a href="#">Toàn Cầu</a></h4>
+						<p class="description">Dễ dàng truy cập và chia sẻ liên kết ngắn trên toàn thế giới</p>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="400">
+					<div class="icon-box">
+						<div class="icon"><i class="ri-check-line"></i></div>
+						<h4 class="title"><a href="#">Đơn Giản</a></h4>
+						<p class="description">Quy trình rút ngắn URL đơn giản và dễ sử dụng</p>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="500">
+					<div class="icon-box">
+						<div class="icon"><i class="ri-time-line"></i></div>
+						<h4 class="title"><a href="#">Tiết Kiệm Thời Gian</a></h4>
+						<p class="description">Rút ngắn URL mà không mất quá nhiều thời gian và công sức</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section><!-- End Hero -->
+
+	<main id="main">
+
+		<!-- ======= About Section ======= -->
+		<section id="about" class="about">
+			<div class="container" data-aos="fade-up">
+
+				<div class="section-title">
+					<h2>Về Chúng Tôi</h2>
+					<p>Chào mừng bạn đến với TaiShorten</p>
+				</div>
+
+				<div class="row content">
+					<div class="col-lg-6">
+						<p>
+							TaiShorten là nền tảng giúp bạn rút gọn đường dẫn URL dài, giúp chúng trở nên dễ quản lý và dễ chia sẻ hơn. Chúng tôi hiểu rõ về sự quan trọng của sự đơn giản và hiệu quả khi quản lý liên kết.
+						</p>
+						<ul>
+							<li><i class="ri-check-double-line"></i> Rút gọn URL một cách dễ dàng để chia sẻ thuận tiện</li>
+							<li><i class="ri-check-double-line"></i> Tối ưu hóa liên kết của bạn để có giao diện sạch sẽ và chuyên nghiệp hơn</li>
+							<li><i class="ri-check-double-line"></i> Theo dõi đường dẫn rút gọn của bạn để có thông tin phân tích và nhận định</li>
+						</ul>
+					</div>
+					<div class="col-lg-6 pt-4 pt-lg-0">
+						<p>
+							Sứ mệnh của chúng tôi là mang đến một trải nghiệm mượt mà và thân thiện với người dùng cho bất kỳ ai muốn đơn giản hóa việc quản lý đường dẫn của mình. Cho dù bạn là một chuyên gia kinh doanh, người tạo nội dung hay người dùng thông thường, TaiShorten luôn sẵn sàng giúp bạn quản lý liên kết một cách dễ dàng.
+						</p>
+						<a href="#" class="btn-learn-more">Rút gọn Url</a>
+					</div>
+				</div>
+
+			</div>
+		</section><!-- End About Section -->
+		<!-- ======= Counts Section ======= -->
+		<section id="counts" class="counts section-bg">
+			<div class="container">
+
+				<div class="row justify-content-end">
+
+					<div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
+						<div class="count-box">
+							<span data-purecounter-start="0" data-purecounter-end="5621" data-purecounter-duration="2" class="purecounter"></span>
+							<p>Liên Kết Rút Gọn</p>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
+						<div class="count-box">
+							<span data-purecounter-start="0" data-purecounter-end="4532" data-purecounter-duration="2" class="purecounter"></span>
+							<p>Lượt truy cập</p>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
+						<div class="count-box">
+							<span data-purecounter-start="0" data-purecounter-end="3" data-purecounter-duration="2" class="purecounter"></span>
+							<p>Năm Hoạt Động</p>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
+						<div class="count-box">
+							<span data-purecounter-start="0" data-purecounter-end="9" data-purecounter-duration="2" class="purecounter"></span>
+							<p>Dự Án Thành Công</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section><!-- End Counts Section -->
+
+	</main><!-- End #main -->
+	<!-- ======= Footer ======= -->
+	<footer id="footer">
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-12 footer-left">
+						<h3><strong>TaiShorten</strong> </h3>
+						<p>
+							Cam kết cung cấp dịch vụ rút gọn URL tuân thủ pháp luật Việt Nam. Chúng tôi chặt chẽ ngăn chặn việc sử dụng dịch vụ để vi phạm luật. Hãy sử dụng TàiShorten một cách trách nhiệm và đảm bảo rằng mọi liên kết tuân thủ luật pháp. Chúng tôi không chấp nhận việc sử dụng dịch vụ cho mục đích vi phạm pháp luật hoặc xâm phạm quyền của người khác. Hãy đọc và hiểu rõ điều khoản sử dụng trước khi sử dụng TàiShorten. Chúng tôi cam kết duy trì môi trường trực tuyến lành mạnh, an toàn và tuân thủ pháp luật.
+						</p>
+					</div>
+					<div class="col-lg-6 col-md-12 footer-right text-end">
+						<h4>Liên kết nhanh:</h4>
+						<ul>
+							<li><a href="#">Chính sách quyền riêng tư</a></li>
+							<li><a href="#">Chính sách bảo mật</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container d-md-flex py-4">
+
+			<div class="me-md-auto text-center text-md-start">
+				<div class="copyright">
+					&copy; Copyright <strong><span>TaiShorten</span></strong>. All Rights Reserved.
+				</div>
+				<div class="credits">
+					<!-- All the links in the footer should remain intact. -->
+					<!-- You can delete the links only if you purchased the pro version. -->
+					<!-- Licensing information: https://bootstrapmade.com/license/ -->
+					<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/onepage-multipurpose-bootstrap-template/ -->
+					Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+				</div>
+			</div>
+			<div class="social-links text-center text-md-right pt-3 pt-md-0">
+				<a href="https://www.facebook.com/profile.php?id=100056173264530" class="facebook"><i class="bx bxl-facebook"></i></a>
+				<a href="https://www.instagram.com/tai.leduc040402/" class="instagram"><i class="bx bxl-instagram"></i></a>
+				<a href="https://github.com/taileduc0404" class="google-plus"><i class="bx bxl-github"></i></a>
+				<a href="https://www.linkedin.com/in/tai-le-duc-b798b0271/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+			</div>
+		</div>
+	</footer><!-- End Footer -->
+
+	<div id="preloader"></div>
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+	<!-- Vendor JS Files -->
+	<script src="~/Bootstrap/vendor/purecounter/purecounter_vanilla.js"></script>
+	<script src="~/Bootstrap/vendor/aos/aos.js"></script>
+	<script src="~/Bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="~/Bootstrap/vendor/glightbox/js/glightbox.min.js"></script>
+	<script src="~/Bootstrap/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="~/Bootstrap/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="~/Bootstrap/vendor/php-email-form/validate.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="~/Bootstrap/js/main.js"></script>
+
 </body>
+
 </html>

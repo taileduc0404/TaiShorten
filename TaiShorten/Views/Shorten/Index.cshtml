@@ -1,22 +1,44 @@
-﻿<!-- Views/Shorten/Index.cshtml -->
-@{
+﻿@{
     ViewData["Title"] = "Shorten URL";
 }
 
-<h2>@ViewData["Title"]</h2>
-
 <form method="post" action="/Shorten/ShortenUrl">
-    <div class="form-group">
-        <label for="originalUrl">Original URL:</label>
-        <input type="text" class="form-control" id="originalUrl" name="originalUrl" required />
+    <div class="form-group mt-4">
+        <input type="text" class="form-control" id="originalUrl" placeholder="Dán URL cần rút gọn của bạn" name="originalUrl" required />
     </div>
-    <button type="submit" class="btn btn-primary">Shorten URL</button>
+
+    <button type="submit" class="btn btn-primary btn-get-started scrollto" style="border: none;">Rút gọn</button>
 </form>
 
 @if (ViewBag.ShortenedUrl != null)
 {
-    <div class="mt-3">
-        <p><strong>Shortened URL:</strong></p>
-        <a href="@ViewBag.ShortenedUrl" target="_blank">@ViewBag.ShortenedUrl</a>
+    <div class="mt-3" id="shortenedUrlContainer">
+        <h3><strong>Shortened URL:</strong></h3>
+        <h5><a href="@ViewBag.ShortenedUrl" target="_blank" id="shortenedLink">@ViewBag.ShortenedUrl</a></h5>
+        <button onclick="copyToClipboard()" class="btn btn-primary scrollto" style="border: none;">Copy Link</button>
     </div>
 }
+
+<script>
+    function copyToClipboard() {
+        // Lấy đối tượng chứa đường dẫn ngắn
+        var linkContainer = document.getElementById("shortenedLink");
+
+        // Tạo một thẻ input ẩn để chứa đường dẫn ngắn
+        var input = document.createElement("input");
+        input.value = linkContainer.href;
+        document.body.appendChild(input);
+
+        // Chọn toàn bộ nội dung của thẻ input
+        input.select();
+
+        // Sao chép nội dung đã chọn vào clipboard
+        document.execCommand("copy");
+
+        // Xóa thẻ input sau khi sao chép
+        document.body.removeChild(input);
+
+        // Thông báo sao chép thành công (có thể thay đổi theo ý bạn)
+        alert("Đã sao chép đường dẫn!");
+    }
+</script>

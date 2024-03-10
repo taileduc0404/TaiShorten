@@ -25,7 +25,6 @@ namespace TaiShorten.Controllers
         {
             var shortenedUrl = GenerateShortenedUrl();
 
-            // Kiểm tra xem liên kết ngắn đã tồn tại chưa
             while (_dbContext.shortUrls!.Any(u => u.ShortenedUrl == shortenedUrl))
             {
                 shortenedUrl = GenerateShortenedUrl();
@@ -45,7 +44,6 @@ namespace TaiShorten.Controllers
             var shortUrl = _dbContext.shortUrls!.FirstOrDefault(u => u.ShortenedUrl!.EndsWith(id));
             if (shortUrl != null)
             {
-                // Logic chuyển hướng
                 return base.Redirect(shortUrl.OriginalUrl!);
             }
 
@@ -55,9 +53,8 @@ namespace TaiShorten.Controllers
 
         private string GenerateShortenedUrl()
         {
-            // Tạo một GUID ngẫu nhiên và sử dụng nó trong URL
             var guid = Guid.NewGuid().ToString("N").Substring(0, 6);
-            return $"https://localhost:44351/{guid}";
+            return $"https://www.taishorten.somee.com/{guid}";
         }
     }
 }
