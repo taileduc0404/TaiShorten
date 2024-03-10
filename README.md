@@ -1,1 +1,1 @@
-Try it at: https://taishorten.somee.com
+Try it here: https://taishorten.somee.com
