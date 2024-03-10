@@ -54,7 +54,7 @@ namespace TaiShorten.Controllers
         private string GenerateShortenedUrl()
         {
             var guid = Guid.NewGuid().ToString("N").Substring(0, 6);
-            return $"https://www.taishorten.somee.com/{guid}";
+            return $"https://localhost:44351/{guid}";
         }
     }
 }
