@@ -50,11 +50,26 @@ namespace TaiShorten.Controllers
             return NotFound();
         }
 
+		private string GenerateShortenedUrl()
+		{
+			// Chuỗi ký tự mà chúng ta sẽ sử dụng để tạo mã, bao gồm chữ hoa, chữ thường và số
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        private string GenerateShortenedUrl()
-        {
-            var guid = Guid.NewGuid().ToString("N").Substring(0, 6);
-            return $"https://localhost:44351/{guid}";
-        }
-    }
+			// Tạo một đối tượng ngẫu nhiên để tạo ra giá trị ngẫu nhiên
+			var random = new Random();
+
+			// Mảng chứa mã ngắn được tạo
+			var code = new char[7];
+
+			// Lặp qua từng vị trí trong mã và gán một ký tự ngẫu nhiên từ chuỗi chars
+			for (int i = 0; i < code.Length; i++)
+			{
+				code[i] = chars[random.Next(chars.Length)];
+			}
+
+			// Trả về đường dẫn ngắn với mã mới tạo
+			return $"https://localhost:44351/{new string(code)}";
+		}
+
+	}
 }
