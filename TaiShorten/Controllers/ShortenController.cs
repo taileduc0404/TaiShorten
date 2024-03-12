@@ -98,7 +98,7 @@ namespace TaiShorten.Controllers
 			}
 
 			// Trả về đường dẫn ngắn với mã mới tạo
-			return $"https://localhost:44351/{new string(code)}";
+			return $"https://taishorten.somee.com/{new string(code)}";
 		}
 
 	}
