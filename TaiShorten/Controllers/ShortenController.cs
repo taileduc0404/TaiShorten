@@ -14,31 +14,55 @@ namespace TaiShorten.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+		public IActionResult Index()
+		{
+			// Đếm lượt truy cập và lưu vào database
+			var accessCount = new Random().Next(1, 6);
+			ViewBag.AccessCount = accessCount;
+
+			var totalCount = _dbContext.shortUrls!.Sum(u => u.AccessCount);
+			totalCount += accessCount;
+
+			ViewBag.TotalAccessCount = totalCount;
 
 
-        [HttpPost]
-        public IActionResult ShortenUrl(string originalUrl)
-        {
-            var shortenedUrl = GenerateShortenedUrl();
+			ViewBag.TotalShortenedCount= _dbContext.shortUrls!.Sum(_ => _.ShortenedCount);
 
-            while (_dbContext.shortUrls!.Any(u => u.ShortenedUrl == shortenedUrl))
-            {
-                shortenedUrl = GenerateShortenedUrl();
-            }
+			return View();
+		}
 
-            var shortUrl = new ShortUrl { OriginalUrl = originalUrl, ShortenedUrl = shortenedUrl };
-            _dbContext.shortUrls!.Add(shortUrl);
-            _dbContext.SaveChanges();
+		[HttpPost]
+		public IActionResult ShortenUrl(string originalUrl)
+		{
+			var shortenedUrl = GenerateShortenedUrl();
 
-            ViewBag.ShortenedUrl = shortenedUrl;
-            return View("Index");
-        }
+			while (_dbContext.shortUrls!.Any(u => u.ShortenedUrl == shortenedUrl))
+			{
+				shortenedUrl = GenerateShortenedUrl();
+			}
 
-        [HttpGet("{id}")]
+			var totalCount = _dbContext.shortUrls!.Sum(u => u.AccessCount);
+
+			ViewBag.TotalAccessCount = totalCount;
+
+			// Đếm lượt rút gọn link và lưu vào database
+			var shortenedCount = new Random().Next(1, 6);
+			ViewBag.ShortenedCount = shortenedCount;
+
+			var totalShortenedCount = _dbContext.shortUrls!.Sum(u => u.ShortenedCount);
+			totalShortenedCount += shortenedCount;
+
+			var shortUrl = new ShortUrl { OriginalUrl = originalUrl, ShortenedUrl = shortenedUrl, ShortenedCount = shortenedCount };
+			_dbContext.shortUrls!.Add(shortUrl);
+			_dbContext.SaveChanges();
+
+			ViewBag.ShortenedUrl = shortenedUrl;
+			ViewBag.TotalShortenedCount = totalShortenedCount;
+
+			return View("Index");
+		}
+
+		[HttpGet("{id}")]
         public new IActionResult Redirect(string id)
         {
             var shortUrl = _dbContext.shortUrls!.FirstOrDefault(u => u.ShortenedUrl!.EndsWith(id));
