@@ -43,7 +43,7 @@
 	<header id="header" class="fixed-top">
 		<div class="container d-flex align-items-center justify-content-between">
 
-			<h1 class="logo"><a class="nav-link scrollto" href="#hero">TaiShorten</a></h1>
+			<h1 class="logo"><a class="nav-link scrollto" asp-controller="Shorten" asp-action="Index">TaiShorten</a></h1>
 			<!-- Uncomment below if you prefer to use an image logo -->
 			<!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -100,8 +100,8 @@
 					<div class="col-lg-6 col-md-12 footer-right text-end">
 						<h4>Liên kết nhanh:</h4>
 						<ul>
-							<li><a href="#">Chính sách quyền riêng tư</a></li>
-							<li><a href="#">Chính sách bảo mật</a></li>
+							<li><a asp-controller="Legal" asp-action="TermsOfUse">Điều khoản sử dụng</a></li>
+							<li><a asp-controller="Legal" asp-action="PrivacyPolicy">Chính sách bảo mật</a></li>
 						</ul>
 					</div>
 				</div>

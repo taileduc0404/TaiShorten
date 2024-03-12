@@ -5,14 +5,14 @@ using TaiShorten.Models;
 
 namespace TaiShorten.Controllers
 {
-    public class ShortenController : Controller
-    {
-        private readonly ApplicationDbContext _dbContext;
+	public class ShortenController : Controller
+	{
+		private readonly ApplicationDbContext _dbContext;
 
-        public ShortenController(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+		public ShortenController(ApplicationDbContext dbContext)
+		{
+			_dbContext = dbContext;
+		}
 
 		public IActionResult Index()
 		{
@@ -26,7 +26,7 @@ namespace TaiShorten.Controllers
 			ViewBag.TotalAccessCount = totalCount;
 
 
-			ViewBag.TotalShortenedCount= _dbContext.shortUrls!.Sum(_ => _.ShortenedCount);
+			ViewBag.TotalShortenedCount = _dbContext.shortUrls!.Sum(_ => _.ShortenedCount);
 
 			return View();
 		}
@@ -41,6 +41,7 @@ namespace TaiShorten.Controllers
 				shortenedUrl = GenerateShortenedUrl();
 			}
 
+			// Hiển thị số lượt truy cập
 			var totalCount = _dbContext.shortUrls!.Sum(u => u.AccessCount);
 
 			ViewBag.TotalAccessCount = totalCount;
@@ -52,7 +53,12 @@ namespace TaiShorten.Controllers
 			var totalShortenedCount = _dbContext.shortUrls!.Sum(u => u.ShortenedCount);
 			totalShortenedCount += shortenedCount;
 
-			var shortUrl = new ShortUrl { OriginalUrl = originalUrl, ShortenedUrl = shortenedUrl, ShortenedCount = shortenedCount };
+			var shortUrl = new ShortUrl
+			{
+				OriginalUrl = originalUrl,
+				ShortenedUrl = shortenedUrl,
+				ShortenedCount = shortenedCount
+			};
 			_dbContext.shortUrls!.Add(shortUrl);
 			_dbContext.SaveChanges();
 
@@ -63,16 +69,16 @@ namespace TaiShorten.Controllers
 		}
 
 		[HttpGet("{id}")]
-        public new IActionResult Redirect(string id)
-        {
-            var shortUrl = _dbContext.shortUrls!.FirstOrDefault(u => u.ShortenedUrl!.EndsWith(id));
-            if (shortUrl != null)
-            {
-                return base.Redirect(shortUrl.OriginalUrl!);
-            }
+		public new IActionResult Redirect(string id)
+		{
+			var shortUrl = _dbContext.shortUrls!.FirstOrDefault(u => u.ShortenedUrl!.EndsWith(id));
+			if (shortUrl != null)
+			{
+				return base.Redirect(shortUrl.OriginalUrl!);
+			}
 
-            return NotFound();
-        }
+			return NotFound();
+		}
 
 		private string GenerateShortenedUrl()
 		{
