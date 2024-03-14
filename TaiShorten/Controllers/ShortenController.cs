@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using TaiShorten.Data;
 using TaiShorten.Models;
 
@@ -16,26 +15,8 @@ namespace TaiShorten.Controllers
 
         public IActionResult Index()
         {
-            // Đếm lượt truy cập và lưu vào database
-            var accessCount = new Random().Next(1, 3);
 
-            var totalCount = _dbContext.shortUrls!.Sum(u => u.AccessCount);
-            totalCount += accessCount;
-
-            // Lấy ra một bản ghi trong cơ sở dữ liệu (ví dụ: lấy bản ghi đầu tiên)
-            var urlRecord = _dbContext.shortUrls!.FirstOrDefault();
-
-            if (urlRecord != null)
-            {
-                // Cập nhật số lượt truy cập của bản ghi đó
-                urlRecord.AccessCount += accessCount;
-
-                // Lưu thay đổi vào cơ sở dữ liệu
-                _dbContext.SaveChanges();
-            }
-
-            ViewBag.TotalAccessCount = totalCount;
-
+            ViewBag.TotalAccessCount = AccessCount();
 
             ViewBag.TotalShortenedCount = _dbContext.shortUrls!.Sum(_ => _.ShortenedCount);
 
@@ -52,25 +33,8 @@ namespace TaiShorten.Controllers
                 shortenedUrl = GenerateShortenedUrl();
             }
 
-            // Hiển thị số lượt truy cập
-            var accessCount = new Random().Next(1, 3);
 
-            var totalCount = _dbContext.shortUrls!.Sum(u => u.AccessCount);
-            totalCount += accessCount;
-
-            // Lấy ra một bản ghi trong cơ sở dữ liệu (ví dụ: lấy bản ghi đầu tiên)
-            var urlRecord = _dbContext.shortUrls!.FirstOrDefault();
-
-            if (urlRecord != null)
-            {
-                // Cập nhật số lượt truy cập của bản ghi đó
-                urlRecord.AccessCount += accessCount;
-
-                // Lưu thay đổi vào cơ sở dữ liệu
-                _dbContext.SaveChanges();
-            }
-
-            ViewBag.TotalAccessCount = totalCount;
+            ViewBag.TotalAccessCount = AccessCount();
 
             // Đếm lượt rút gọn link và lưu vào database
             var shortenedCount = new Random().Next(1, 3);
@@ -124,8 +88,33 @@ namespace TaiShorten.Controllers
             }
 
             // Trả về đường dẫn ngắn với mã mới tạo
+            //return $"https://localhost:44351/{new string(code)}";
             return $"https://taishorten.somee.com/{new string(code)}";
         }
 
+        private int AccessCount()
+        {
+            // Đếm lượt truy cập và lưu vào database
+            var accessCount = new Random().Next(1, 3);
+
+            var totalCount = _dbContext.shortUrls!.Sum(u => u.AccessCount);
+            totalCount += accessCount;
+
+            // Lấy ra một bản ghi trong cơ sở dữ liệu (ví dụ: lấy bản ghi đầu tiên)
+            var urlRecord = _dbContext.shortUrls!.FirstOrDefault();
+
+            if (urlRecord != null)
+            {
+                // Cập nhật số lượt truy cập của bản ghi đó
+                urlRecord.AccessCount += accessCount;
+
+                // Lưu thay đổi vào cơ sở dữ liệu
+                _dbContext.SaveChanges();
+            }
+
+            //ViewBag.TotalAccessCount = totalCount;
+
+            return totalCount;
+        }
     }
 }
