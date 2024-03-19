@@ -1,120 +1,62 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaiShorten.Data;
 using TaiShorten.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using TaiShorten.Repositories;
 
 namespace TaiShorten.Controllers
 {
     public class ShortenController : Controller
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IUrlShorten _urlShorten;
 
-        public ShortenController(ApplicationDbContext dbContext)
+        public ShortenController(IUrlShorten urlShorten)
         {
-            _dbContext = dbContext;
+            _urlShorten = urlShorten;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var countResult = await _urlShorten.GetCount();
+            ViewBag.TotalAccessCount = countResult.TotalAccessCount;
 
-            ViewBag.TotalAccessCount = AccessCount();
-
-            ViewBag.TotalShortenedCount = _dbContext.shortUrls!.Sum(_ => _.ShortenedCount);
+            ViewBag.TotalShortenedCount = countResult.TotalShortenedCount;
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult ShortenUrl(string originalUrl)
+        public async Task<IActionResult> ShortenUrl(string originalUrl)
         {
-            var shortenedUrl = GenerateShortenedUrl();
-
-            while (_dbContext.shortUrls!.Any(u => u.ShortenedUrl == shortenedUrl))
-            {
-                shortenedUrl = GenerateShortenedUrl();
-            }
-
-
-            ViewBag.TotalAccessCount = AccessCount();
-
-            // Đếm lượt rút gọn link và lưu vào database
-            var shortenedCount = new Random().Next(1, 3);
-            ViewBag.ShortenedCount = shortenedCount;
-
-            var totalShortenedCount = _dbContext.shortUrls!.Sum(u => u.ShortenedCount);
-            totalShortenedCount += shortenedCount;
-
-            var shortUrl = new ShortUrl
-            {
-                OriginalUrl = originalUrl,
-                ShortenedUrl = shortenedUrl,
-                ShortenedCount = shortenedCount
-            };
-            _dbContext.shortUrls!.Add(shortUrl);
-            _dbContext.SaveChanges();
-
-            ViewBag.ShortenedUrl = shortenedUrl;
-            ViewBag.TotalShortenedCount = totalShortenedCount;
-
+            var urlResult = await _urlShorten.ShortenUrl(originalUrl);
+            ViewBag.TotalAccessCount = urlResult.TotalAccessCount;
+            ViewBag.ShortenedUrl = urlResult.ShortenedUrl;
+            ViewBag.TotalShortenedCount = urlResult.TotalShortenedCount;
             return View("Index");
         }
 
         [HttpGet("{id}")]
-        public new IActionResult Redirect(string id)
+        public new async Task<IActionResult> Redirect(string id)
         {
-            var shortUrl = _dbContext.shortUrls!.FirstOrDefault(u => u.ShortenedUrl!.EndsWith(id));
-            if (shortUrl != null)
+            var result=  await _urlShorten.Redirect(id);
+            if (result is null)
             {
-                return base.Redirect(shortUrl.OriginalUrl!);
+                return NotFound();
             }
-
-            return NotFound();
+            return result;
         }
 
         private string GenerateShortenedUrl()
         {
-            // Chuỗi ký tự mà chúng ta sẽ sử dụng để tạox mã, bao gồm chữ hoa, chữ thường và số
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-            // Tạo một đối tượng ngẫu nhiên để tạo ra giá trị ngẫu nhiên
-            var random = new Random();
-
-            // Mảng chứa mã ngắn được tạo
-            var code = new char[7];
-
-            // Lặp qua từng vị trí trong mã và gán một ký tự ngẫu nhiên từ chuỗi chars
-            for (int i = 0; i < code.Length; i++)
-            {
-                code[i] = chars[random.Next(chars.Length)];
-            }
-
-            // Trả về đường dẫn ngắn với mã mới tạo
-            //return $"https://localhost:44351/{new string(code)}";
-            return $"https://taishorten.somee.com/{new string(code)}";
+            return _urlShorten.GenerateShortenedUrl();
         }
 
-        private int AccessCount()
+        private async Task AccessCountAsync()
         {
-            // Đếm lượt truy cập và lưu vào database
-            var accessCount = new Random().Next(1, 3);
-
-            var totalCount = _dbContext.shortUrls!.Sum(u => u.AccessCount);
-            totalCount += accessCount;
-
-            // Lấy ra một bản ghi trong cơ sở dữ liệu (ví dụ: lấy bản ghi đầu tiên)
-            var urlRecord = _dbContext.shortUrls!.FirstOrDefault();
-
-            if (urlRecord != null)
-            {
-                // Cập nhật số lượt truy cập của bản ghi đó
-                urlRecord.AccessCount += accessCount;
-
-                // Lưu thay đổi vào cơ sở dữ liệu
-                _dbContext.SaveChanges();
-            }
-
-            //ViewBag.TotalAccessCount = totalCount;
-
-            return totalCount;
+            await _urlShorten.AccessCountAsync();
         }
     }
 }

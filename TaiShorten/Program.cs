@@ -1,6 +1,8 @@
-
+﻿
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using TaiShorten.Data;
+using TaiShorten.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
+builder.Services.AddScoped<IUrlShorten, UrlShorten>();
+
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true; // Cho phép nén cả khi sử dụng HTTPS
+    options.Providers.Add<GzipCompressionProvider>(); // Sử dụng Gzip để nén
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml" }); // Cấu hình các loại MIME nén
+});
 
 builder.Services.AddControllersWithViews();
 
@@ -25,6 +35,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseResponseCompression(); // middleware nén
 
 app.UseAuthorization();
 
