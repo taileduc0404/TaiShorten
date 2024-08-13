@@ -1,161 +1,96 @@
 ﻿@{
-    ViewData["Title"] = "Shorten URL";
+	ViewData["Title"] = "Shorten URL";
 }
 
-<section id="hero" class="d-flex align-items-center">
-    <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
-        <div class="row justify-content-center">
-            <div class="col-xl-7 col-lg-9 text-center">
-                <h1>Rút gọn link của bạn hoàn toàn miễn phí</h1>
-                <h2>Tạo đường link ngắn gọn để chia sẻ dễ dàng hơn.</h2>
-            </div>
-        </div>
-        <div class="text-center">
-            <form method="post" action="/Shorten/ShortenUrl">
-                <div class="form-group mt-4">
-                    <input type="text" class="form-control" id="originalUrl" placeholder="Dán URL cần rút gọn của bạn" name="originalUrl" required />
-                </div>
-                <button type="submit" class="btn btn-primary btn-get-started scrollto" style="border: none;">Rút gọn</button>
-            </form>
-            @if (ViewBag.ShortenedUrl != null)
-            {
-                <div class="mt-3" id="shortenedUrlContainer">
-                    <h3><strong>Shortened URL:</strong></h3>
-                    <h5><a href="@ViewBag.ShortenedUrl" target="_blank" id="shortenedLink">@ViewBag.ShortenedUrl</a></h5>
 
-                    <button onclick="copyToClipboard()" class="btn btn-primary scrollto" style="border: none;">Copy Link</button>
-                </div>
-            }
-        </div>
-        <div class="row icon-boxes">
-            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200">
-                <div class="icon-box">
-                    <div class="icon"><i class="ri-link"></i></div>
-                    <h4 class="title">Rút Ngắn URL</h4>
-                    <p class="description">Rút gọn đường link của bạn một cách nhanh chóng và hiệu quả</p>
-                </div>
-            </div>
+<!-- Masthead-->
+<header class="masthead">
+	<div class="container position-relative">
+		<div class="row justify-content-center">
+			<div class="col-xl-6">
+				<div class="text-center text-white">
+					<h1 class="mb-5">Rút gọn link của bạn hoàn toàn miễn phí!</h1>
+					<form method="post" action="/Shorten/ShortenUrl">
+						<div class="row">
+							<div class="col">
+								<input class="form-control form-control-lg" id="originalUrl" name="originalUrl" type="url"
+									   placeholder="Dán Url cần rút gọn" data-sb-validations="required,url" required />
+								<div class="invalid-feedback text-white" data-sb-feedback="originalUrl:required">
+									Url is required.
+								</div>
+								<div class="invalid-feedback text-white" data-sb-feedback="originalUrl:url">
+									Url is not valid.
+								</div>
+							</div>
+							<div class="col-auto">
+								<button class="btn btn-primary btn-lg" id="submitButton" type="submit" disabled>Submit</button>
+							</div>
+						</div>
+					</form>
+					@if (ViewBag.ShortenedUrl != null)
+					{
+						<div class="mt-3" id="shortenedUrlContainer">
+							<h3><strong>Shortened URL:</strong></h3>
+							<h5><a class="text-light" href="@ViewBag.ShortenedUrl" target="_blank" id="shortenedLink">@ViewBag.ShortenedUrl</a></h5>
 
-            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="300">
-                <div class="icon-box">
-                    <div class="icon"><i class="ri-earth-line"></i></div>
-                    <h4 class="title">Toàn Cầu</h4>
-                    <p class="description">Dễ dàng truy cập và chia sẻ liên kết ngắn trên toàn thế giới</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="400">
-                <div class="icon-box">
-                    <div class="icon"><i class="ri-check-line"></i></div>
-                    <h4 class="title">Đơn Giản</h4>
-                    <p class="description">Quy trình rút ngắn URL đơn giản và dễ sử dụng</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="500">
-                <div class="icon-box">
-                    <div class="icon"><i class="ri-time-line"></i></div>
-                    <h4 class="title">Tiết Kiệm Thời Gian</h4>
-                    <p class="description">Rút ngắn URL mà không mất quá nhiều thời gian và công sức</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
+							<button onclick="copyToClipboard()" class="btn btn-primary scrollto" style="border: none;">Copy Link</button>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+<!-- Icons Grid-->
+<section class="features-icons bg-light text-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+					<div class="features-icons-icon d-flex"><i class="bi-scissors m-auto text-primary"></i></div>
+					<h3>Rút gọn URL nhanh chóng</h3>
+					<p class="lead mb-0">Rút ngắn liên kết dài thành URL ngắn gọn, dễ chia sẻ chỉ trong vài giây!</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+					<div class="features-icons-icon d-flex"><i class="bi-people m-auto text-primary"></i></div>
+					<h3>Dễ Dàng Chia Sẻ</h3>
+					<p class="lead mb-0">Chia sẻ liên kết rút gọn một cách dễ dàng qua mạng xã hội hoặc email.</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="features-icons-item mx-auto mb-0 mb-lg-3">
+					<div class="features-icons-icon d-flex"><i class="bi-lightning m-auto text-primary"></i></div>
+					<h3>Hiệu Suất Cao</h3>
+					<p class="lead mb-0">Đảm bảo tốc độ xử lý nhanh và ổn định cho mọi liên kết rút gọn.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
-<main id="main">
-
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about">
-        <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-                <h2>Về Chúng Tôi</h2>
-                <p>Chào mừng bạn đến với TaiShorten</p>
-            </div>
-
-            <div class="row content">
-                <div class="col-lg-6">
-                    <p>
-                        TaiShorten là nền tảng giúp bạn rút gọn đường dẫn URL dài, giúp chúng trở nên dễ quản lý và dễ chia sẻ hơn. Chúng tôi hiểu rõ về sự quan trọng của sự đơn giản và hiệu quả khi quản lý liên kết.
-                    </p>
-                    <ul>
-                        <li><i class="ri-check-double-line"></i> Rút gọn URL một cách dễ dàng để chia sẻ thuận tiện</li>
-                        <li><i class="ri-check-double-line"></i> Tối ưu hóa liên kết của bạn để có giao diện sạch sẽ và chuyên nghiệp hơn</li>
-                        <li><i class="ri-check-double-line"></i> Theo dõi đường dẫn rút gọn của bạn để có thông tin phân tích và nhận định</li>
-                    </ul>
-                </div>
-                <div class="col-lg-6 pt-4 pt-lg-0">
-                    <p>
-                        Sứ mệnh của chúng tôi là mang đến một trải nghiệm mượt mà và thân thiện với người dùng cho bất kỳ ai muốn đơn giản hóa việc quản lý đường dẫn của mình. Cho dù bạn là một chuyên gia kinh doanh, người tạo nội dung hay người dùng thông thường, TaiShorten luôn sẵn sàng giúp bạn quản lý liên kết một cách dễ dàng.
-                    </p>
-                    <a href="#" class="btn-learn-more">Rút gọn Url</a>
-                </div>
-            </div>
-
-        </div>
-    </section><!-- End About Section -->
-    <!-- ======= Counts Section ======= -->
-    <section id="counts" class="counts section-bg">
-        <div class="container">
-
-            <div class="row justify-content-end">
-                <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
-                    <div class="count-box">
-                        <span data-purecounter-start="0" data-purecounter-end="@ViewBag.TotalShortenedCount" data-purecounter-duration="2" class="purecounter"></span>
-                        <p>Liên Kết Rút Gọn</p>
-                    </div>
-                </div>
+<!-- Testimonials-->
+<section id="counts" class="testimonials text-center custom-bg-light">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="testimonial-item mx-auto mb-5 mb-lg-0">
+					<h1 class="custom-text-dark custom-number"><b>@ViewBag.TotalShortenedCount</b></h1>
+					<h5 class="custom-text-muted">Liên kết rút gọn</h5>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="testimonial-item mx-auto mb-5 mb-lg-0">
+					<h1 class="custom-text-dark custom-number"><b>@ViewBag.TotalAccessCount</b></h1>
+					<h5 class="custom-text-muted">Lượt truy cập</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
 
-                <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
-                    <div class="count-box">
-                        <span data-purecounter-start="0" data-purecounter-end="@ViewBag.TotalAccessCount" data-purecounter-duration="2" class="purecounter"></span>
-                        <p>Lượt truy cập</p>
-                    </div>
-                </div>
 
-                <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
-                    <div class="count-box">
-                        <span data-purecounter-start="0" data-purecounter-end="3" data-purecounter-duration="2" class="purecounter"></span>
-                        <p>Năm Hoạt Động</p>
-                    </div>
-                </div>
 
-                <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
-                    <div class="count-box">
-                        <span data-purecounter-start="0" data-purecounter-end="9" data-purecounter-duration="2" class="purecounter"></span>
-                        <p>Dự Án Thành Công</p>
-                    </div>
-                </div>
-            </div>
 
-        </div>
-    </section><!-- End Counts Section -->
-
-</main><!-- End #main -->
-
-<script>
-    function copyToClipboard() {
-        // Lấy đối tượng chứa đường dẫn ngắn
-        var linkContainer = document.getElementById("shortenedLink");
-
-        // Tạo một thẻ input ẩn để chứa đường dẫn ngắn
-        var input = document.createElement("input");
-        input.value = linkContainer.href;
-        document.body.appendChild(input);
-
-        // Chọn toàn bộ nội dung của thẻ input
-        input.select();
-
-        // Sao chép nội dung đã chọn vào clipboard
-        document.execCommand("copy");
-
-        // Xóa thẻ input sau khi sao chép
-        document.body.removeChild(input);
-
-        // Thông báo sao chép thành công (có thể thay đổi theo ý bạn)
-        alert("Đã sao chép đường dẫn!");
-    }
-</script>

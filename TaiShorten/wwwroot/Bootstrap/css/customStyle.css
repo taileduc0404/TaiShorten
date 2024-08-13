@@ -1,0 +1,27 @@
+.custom-bg-dark {
+    background-color: #323b44; /* Màu xanh đậm vừa */
+}
+
+.custom-bg-light {
+    background-color: #e3f2fd; /* Màu xanh dương nhạt */
+}
+
+.custom-text-muted {
+    color: rgb(165, 160, 160); /* Màu chữ nhạt */
+}
+
+.custom-text-dark {
+    color: #333; /* Màu chữ tối hơn */
+}
+
+.custom-number {
+    font-size: 3rem; /* Kích thước chữ lớn cho số liệu */
+    font-weight: bold; /* Chữ đậm */
+    color: #007bff; /* Màu xanh dương nổi bật */
+    margin: 0; /* Loại bỏ khoảng cách mặc định */
+}
+
+h5.custom-text-muted {
+    font-size: 1.25rem; /* Kích thước chữ cho tiêu đề nhỏ */
+    color: rgb(165, 160, 160); /* Màu chữ nhạt */
+}

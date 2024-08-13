@@ -5,90 +5,90 @@ using TaiShorten.Models;
 
 namespace TaiShorten.Repositories
 {
-    public class UrlShorten : IUrlShorten
-    {
-        private readonly ApplicationDbContext _dbContext;
+	public class UrlShorten : IUrlShorten
+	{
+		private readonly ApplicationDbContext _dbContext;
+		private static readonly Random _random = new Random();
 
-        public UrlShorten(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+		public UrlShorten(ApplicationDbContext dbContext)
+		{
+			_dbContext = dbContext;
+		}
 
-        public async Task<int> AccessCountAsync()
-        {
-            var accessCount = new Random().Next(1, 3);
-            var totalCount = await _dbContext.shortUrls!.SumAsync(u => u.AccessCount);
-            totalCount += accessCount;
-            var urlRecord = await _dbContext.shortUrls!.FirstOrDefaultAsync();
-            if (urlRecord != null)
-            {
-                urlRecord.AccessCount += accessCount;
-                await _dbContext.SaveChangesAsync();
-            }
-            return totalCount;
-        }
+		public async Task<int> AccessCountAsync()
+		{
+			var accessCount = _random.Next(1, 3);
 
-        public string GenerateShortenedUrl()
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var random = new Random();
-            var code = new char[7];
-            for (int i = 0; i < code.Length; i++)
-            {
-                code[i] = chars[random.Next(chars.Length)];
-            }
-            return $"https://taishorten.somee.com/{new string(code)}";
-        }
+			// Tính tổng số lượt truy cập
+			var totalCount = await _dbContext.shortUrls!.SumAsync(u => u.AccessCount) + accessCount;
 
-        public async Task<(int TotalAccessCount, int TotalShortenedCount)> GetCount()
-        {
-            var totalAccessCount = await AccessCountAsync();
+			// Cập nhật số lượng truy cập cho tất cả các bản ghi
+			await _dbContext.Database.ExecuteSqlRawAsync(
+				"UPDATE ShortUrls SET AccessCount = AccessCount + {0}",
+				accessCount);
 
-            var totalShortenedCount = await _dbContext.shortUrls!.SumAsync(_ => _.ShortenedCount);
-            return (totalAccessCount, totalShortenedCount);
-        }
+			return totalCount;
+		}
 
-        public async Task<IActionResult> Redirect(string id)
-        {
-            var shortUrl = await _dbContext.shortUrls!.FirstOrDefaultAsync(u => u.ShortenedUrl!.EndsWith(id));
-            if (shortUrl == null)
-            {
-                return null!;
-            }
-            return await Redirect(shortUrl.OriginalUrl!);
+		public string GenerateShortenedUrl()
+		{
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			var code = new char[7];
+			for (int i = 0; i < code.Length; i++)
+			{
+				code[i] = chars[_random.Next(chars.Length)];
+			}
+			return $"https://taishorten.somee.com/{new string(code)}";
+		}
 
-        }
+		public async Task<(int TotalAccessCount, int TotalShortenedCount)> GetCount()
+		{
+			var totalAccessCount = await AccessCountAsync();
+			var totalShortenedCount = await _dbContext.shortUrls!.SumAsync(u => u.ShortenedCount);
+			return (totalAccessCount, totalShortenedCount);
+		}
 
-        public async Task<(int TotalAccessCount, int TotalShortenedCount, string ShortenedUrl)> ShortenUrl(string originalUrl)
-        {
-            var shortenedUrl = GenerateShortenedUrl();
+		public async Task<IActionResult> Redirect(string id)
+		{
+			var shortUrl = await _dbContext.shortUrls!.FirstOrDefaultAsync(u => u.ShortenedUrl!.EndsWith(id));
+			if (shortUrl == null)
+			{
+				return new NotFoundResult();
+			}
+			return new RedirectResult(shortUrl.OriginalUrl!);
+		}
 
-            while (_dbContext.shortUrls!.Any(u => u.ShortenedUrl == shortenedUrl))
-            {
-                shortenedUrl = GenerateShortenedUrl();
-            }
+		public async Task<(int TotalAccessCount, int TotalShortenedCount, string ShortenedUrl)> ShortenUrl(string originalUrl)
+		{
+			var shortenedUrl = GenerateShortenedUrl();
 
-            var _totalAccessCount = await AccessCountAsync();
+			// Kiểm tra xem Url có bị trùng lặp khôngg
+			while (await _dbContext.shortUrls!.AnyAsync(u => u.ShortenedUrl == shortenedUrl))
+			{
+				shortenedUrl = GenerateShortenedUrl();
+			}
 
-            var shortenedCount = new Random().Next(1, 3);
-            var ShortenedCount = shortenedCount;
+			var _totalAccessCount = await AccessCountAsync();
 
-            var totalShortenedCount = _dbContext.shortUrls!.Sum(u => u.ShortenedCount);
-            totalShortenedCount += shortenedCount;
+			var shortenedCount = _random.Next(1, 3);
+			var totalShortenedCount = await _dbContext.shortUrls!.SumAsync(u => u.ShortenedCount) + shortenedCount;
 
-            var shortUrl = new ShortUrl
-            {
-                OriginalUrl = originalUrl,
-                ShortenedUrl = shortenedUrl,
-                ShortenedCount = shortenedCount
-            };
-            await _dbContext.shortUrls!.AddAsync(shortUrl);
-            await _dbContext.SaveChangesAsync();
+			var shortUrl = new ShortUrl
+			{
+				OriginalUrl = originalUrl,
+				ShortenedUrl = shortenedUrl,
+				ShortenedCount = shortenedCount
+			};
 
-            var _shortenedUrl = shortenedUrl;
-            var _totalShortenedCount = totalShortenedCount;
+			// Thêm và lưu thay đổi trong 1 transaction
+			using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+			{
+				await _dbContext.shortUrls!.AddAsync(shortUrl);
+				await _dbContext.SaveChangesAsync();
+				await transaction.CommitAsync();
+			}
 
-            return (_totalAccessCount, _totalShortenedCount, _shortenedUrl);
-        }
-    }
+			return (_totalAccessCount, totalShortenedCount, shortenedUrl);
+		}
+	}
 }
